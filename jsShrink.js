@@ -9,7 +9,7 @@
 */
 function jsShrink(input) {
 	var last = '';
-	return ('\n' + input + '\n').replace(/(?:(^|[-+\([{}=,:;!%^&*|?~]|\/(?![/*])|return|throw)(?:\s|\/\/[^\n]*\n|\/\*(?:[^*]|\*(?!\/))*\*\/)*(\/(?![/*])(?:\\[^\n]|[^[\n\/\\]|\[(?:\\[^\n]|[^\]])+)+\/)|(^|'(?:\\[\s\S]|[^\n'\\])*'|"(?:\\[\s\S]|[^\n"\\])*"|([0-9A-Za-z_$]+)|([-+]+)|.))(?:\s|\/\/[^\n]*\n|\/\*(?:[^*]|\*(?!\/))*\*\/)*/g, function (str, context, regexp, result, word, operator) {
+	return ('\n' + input + '\n').replace(/(?:(^|[-+\([{}=,:;!%^&*|?~]|\/(?![/*])|return|throw)(?:\s|\/\/[^\n]*\n|\/\*(?:[^*]|\*(?!\/))*\*\/)*(\/(?![/*])(?:\\[^\n]|[^[\n\/\\]|\[(?:\\[^\n]|[^\]])+)+\/[\w$]*)|(^|'(?:\\[\s\S]|[^\n'\\])*'|"(?:\\[\s\S]|[^\n"\\])*"|([\w$]+)|([-+]+)|.))(?:\s|\/\/[^\n]*\n|\/\*(?:[^*]|\*(?!\/))*\*\/)*/g, function (str, context, regexp, result, word, operator) {
 		if (word) {
 			result = (last == 'word' ? '\n' : (last == 'return' ? ' ' : '')) + result;
 			last = (word == 'return' || word == 'throw' || word == 'break' || word == 'async' ? 'return' : 'word');
@@ -25,8 +25,10 @@ function jsShrink(input) {
 					separator = '\n';
 				}
 				result = separator + context + (context == '/' ? '\n' : '') + regexp;
+				last = 'word'; // separate a following identifier from the regexp
+			} else {
+				last = '';
 			}
-			last = '';
 		}
 		return result;
 	});

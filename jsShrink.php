@@ -17,11 +17,11 @@ function jsShrink($input) {
 				\\\\[^\n]
 				|[^[\n/\\\\]++
 				|\[(?:\\\\[^\n]|[^]])++
-			)+/) # regexp
+			)+/[\w$]*) # regexp with flags
 			|(^
 				|\'(?:\\\\.|[^\n\'\\\\])*\'
 				|"(?:\\\\.|[^\n"\\\\])*"
-				|([0-9A-Za-z_$]+)
+				|([\w$]+)
 				|([-+]+)
 				|.
 			)
@@ -48,8 +48,10 @@ function jsShrinkCallback($match) {
 				$separator = "\n";
 			}
 			$result = $separator . $context . ($context == '/' ? "\n" : "") . $regexp;
+			$last = 'word'; // separate a following identifier from the regexp
+		} else {
+			$last = '';
 		}
-		$last = '';
 	}
 	return $result;
 }
