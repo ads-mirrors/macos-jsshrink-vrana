@@ -11,7 +11,7 @@
 function jsShrink($input) {
 	return preg_replace_callback('(
 		(?:
-			(^|[-+\([{}=,:;!%^&*|?~]|/(?![/*])|return|throw) # context before regexp
+			(^|=>|[-+\([{}=,:;!%^&*|?~]|/(?![/*])|return|throw) # context before regexp
 			(?:\s|//[^\n]*+\n|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
 			(/(?![/*])(?:
 				\\\\[^\n]
@@ -21,6 +21,7 @@ function jsShrink($input) {
 			|(^
 				|\'(?:\\\\.|[^\n\'\\\\])*\'
 				|"(?:\\\\.|[^\n"\\\\])*"
+				|`(?:\\\\.|[^`\\\\])*` # template literal, ${} is kept verbatim
 				|([\w$]+)
 				|([-+]+)
 				|.
