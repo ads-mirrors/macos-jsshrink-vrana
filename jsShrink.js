@@ -12,7 +12,7 @@ function jsShrink(input) {
 	return ('\n' + input + '\n').replace(/(?:(^|[-+\([{}=,:;!%^&*|?~]|\/(?![/*])|return|throw)(?:\s|\/\/[^\n]*\n|\/\*(?:[^*]|\*(?!\/))*\*\/)*(\/(?![/*])(?:\\[^\n]|[^[\n\/\\]|\[(?:\\[^\n]|[^\]])+)+\/[\w$]*)|(^|'(?:\\[\s\S]|[^\n'\\])*'|"(?:\\[\s\S]|[^\n"\\])*"|([\w$]+)|([-+]+)|.))(?:\s|\/\/[^\n]*\n|\/\*(?:[^*]|\*(?!\/))*\*\/)*/g, function (str, context, regexp, result, word, operator) {
 		if (word) {
 			result = (last == 'word' ? '\n' : (last == 'return' ? ' ' : '')) + result;
-			last = (word == 'return' || word == 'throw' || word == 'break' || word == 'async' ? 'return' : 'word');
+			last = (word == 'return' || word == 'throw' || word == 'break' || word == 'continue' || word == 'yield' || word == 'async' ? 'return' : 'word');
 		} else if (operator) {
 			result = (last == operator.charAt(0) ? '\n' : '') + result;
 			last = operator.charAt(0);

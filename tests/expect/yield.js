@@ -1,0 +1,1 @@
+function*g(x){yield x+1;yield*g(x);}
