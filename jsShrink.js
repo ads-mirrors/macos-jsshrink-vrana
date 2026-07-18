@@ -18,7 +18,13 @@ function jsShrink(input) {
 			last = operator.charAt(0);
 		} else {
 			if (regexp) {
-				result = context + (context == '/' ? '\n' : '') + regexp;
+				var separator = '';
+				if (context == 'return' || context == 'throw') {
+					separator = (last == 'word' ? '\n' : (last == 'return' ? ' ' : ''));
+				} else if (last != '' && last == context) {
+					separator = '\n';
+				}
+				result = separator + context + (context == '/' ? '\n' : '') + regexp;
 			}
 			last = '';
 		}

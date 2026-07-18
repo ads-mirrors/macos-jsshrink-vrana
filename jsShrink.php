@@ -41,7 +41,13 @@ function jsShrinkCallback($match) {
 		$last = $operator[0];
 	} else {
 		if ($regexp) {
-			$result = $context . ($context == '/' ? "\n" : "") . $regexp;
+			$separator = '';
+			if ($context == 'return' || $context == 'throw') {
+				$separator = ($last == 'word' ? "\n" : ($last == 'return' ? " " : ""));
+			} elseif ($last != '' && $last == $context) {
+				$separator = "\n";
+			}
+			$result = $separator . $context . ($context == '/' ? "\n" : "") . $regexp;
 		}
 		$last = '';
 	}
