@@ -5,8 +5,15 @@
 <body>
 
 <h1>JsShrink</h1>
-<script type="text/javascript" src="jsShrink.js"></script>
 <script type="text/javascript">
+fetch('https://raw.githubusercontent.com/vrana/JsShrink/refs/heads/main/jsShrink.js')
+	.then(function (response) { return response.text(); })
+	.then(function (code) {
+		var script = document.createElement('script');
+		script.textContent = code;
+		document.head.appendChild(script);
+	});
+
 function jsShrinkHtml() {
 	var input = document.getElementById('jsShrink').value.replace('\r', '');
 	var shrinked = jsShrink(input);
